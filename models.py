@@ -35,10 +35,15 @@ class User(db.Model):
 
     posts = db.relationship('Post', backref='user')
 
-    def get_full_name(self):
+    def _get_full_name(self):
         """Generate user's full name."""
 
         return f'{self.first_name} {self.last_name}'
+
+    full_name = property(
+        fget=_get_full_name,
+        doc="Full name property."
+    )
 
 
 class Post(db.Model):

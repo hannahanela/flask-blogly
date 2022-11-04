@@ -28,7 +28,7 @@ def display_home():
 @app.get('/users')
 def display_users():
     """Show list of users"""
-    users = User.query.all()
+    users = User.query.order_by('last_name', 'first_name').all()
 
     return render_template('users/list.html', users=users)
 
