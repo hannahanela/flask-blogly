@@ -35,6 +35,12 @@ class User(db.Model):
 
     posts = db.relationship('Post', backref='user')
 
+    def get_full_name(self):
+        """Generate user's full name."""
+
+        return f'{self.first_name} {self.last_name}'
+
+
 
 class Post(db.Model):
     """Post class that includes an post id, the post's title, content,
