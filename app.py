@@ -83,7 +83,7 @@ def edit_user(user_id):
     user.last_name = request.form["last_name"]
     img_url = request.form['img_url']
     img_url = img_url if img_url else DEFAULT_IMAGE_URL
-    user.img_url = request.form['img_url']
+    user.img_url = img_url
 
     db.session.add(user)
     db.session.commit()
