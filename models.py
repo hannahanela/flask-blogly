@@ -41,7 +41,6 @@ class User(db.Model):
         return f'{self.first_name} {self.last_name}'
 
 
-
 class Post(db.Model):
     """Post class that includes an post id, the post's title, content,
     date-created-at timestamp, and a user-id"""
