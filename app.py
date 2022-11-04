@@ -19,7 +19,9 @@ db.create_all()
 @app.get('/')
 def display_home():
     """Show list of users as homepage"""
-    return redirect("/users")
+    posts = Post.query.order_by(Post.created_at.desc()).limit(5)
+
+    return render_template("homepage.html", posts=posts)
 
 
 ################################################################################
@@ -170,3 +172,7 @@ def delete_post(post_id):
     db.session.commit()
 
     return redirect(f'/users/{user_id}')
+
+
+################################################################################
+# Tag routes
