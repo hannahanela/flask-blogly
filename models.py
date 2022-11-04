@@ -35,15 +35,11 @@ class User(db.Model):
 
     posts = db.relationship('Post', backref='user')
 
-    def _get_full_name(self):
-        """Generate user's full name."""
+    @property
+    def full_name(self):
+        """Return User's full name."""
 
         return f'{self.first_name} {self.last_name}'
-
-    full_name = property(
-        fget=_get_full_name,
-        doc="Full name property."
-    )
 
 
 class Post(db.Model):
@@ -72,6 +68,12 @@ class Post(db.Model):
 
     post_tag = db.relationship('PostTag',
                                backref='post')
+
+    @property
+    def friendly_date(self):
+        """Return reader-friendly formatted date."""
+
+        return self.created_at.strftime("%a %b %d %Y, %I:%M %p")
 
 
 class Tag(db.Model):

@@ -42,8 +42,8 @@ def display_form_add_user():
 
 
 @app.post('/users/new')
-def add_user():
-    """Gather form info to create a new user, add to database, and return to list"""
+def create_user():
+    """Handle form submission to create a new user."""
     first_name = request.form["first_name"]
     last_name = request.form["last_name"]
     img_url = request.form["img_url"]

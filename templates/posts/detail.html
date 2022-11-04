@@ -8,8 +8,7 @@
 
 <p>{{ post.content }}</p>
 
-<p><i>By {{ post.user.full_name }}</i></p>
-
+<p><i>By {{ post.user.full_name }} on {{ post.friendly_date }}</i></p>
 <form>
     <button formaction="/posts/{{ post.id }}" formmethod="GET">Cancel</button>
     <button formaction="/posts/{{ post.id }}/edit" formmethod="GET">Edit</button>
