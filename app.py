@@ -2,7 +2,7 @@
 
 from flask_debugtoolbar import DebugToolbarExtension
 from flask import Flask, render_template, redirect, request
-from models import db, connect_db, User, Post, Tag, PostTag
+from models import db, connect_db, User, Post, Tag, PostTag, DEFAULT_IMAGE_URL
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
@@ -21,6 +21,9 @@ def display_home():
     """Show list of users as homepage"""
     return redirect("/users")
 
+
+################################################################################
+# User routes
 
 @app.get('/users')
 def display_users():
@@ -44,9 +47,11 @@ def add_user():
     img_url = request.form["img_url"]
     img_url = img_url if img_url else None
 
-    new_user = User(first_name=first_name,
-                    last_name=last_name,
-                    img_url=img_url)
+    new_user = User(
+        first_name=first_name,
+        last_name=last_name,
+        img_url=img_url,
+        )
 
     db.session.add(new_user)
     db.session.commit()
@@ -58,6 +63,7 @@ def add_user():
 def display_user_page(user_id):
     """Show user page for desired user"""
     user = User.query.get_or_404(user_id)
+
     return render_template('users/detail.html', user=user)
 
 
@@ -65,22 +71,21 @@ def display_user_page(user_id):
 def display_form_edit_user(user_id):
     """Show edit form for the corresponding user"""
     user = User.query.get_or_404(user_id)
+
     return render_template('users/edit.html', user=user)
 
 
 @app.post('/users/<int:user_id>/edit')
 def edit_user(user_id):
     """Get info from edit user info form, update database, and redirect to users"""
-    first_name = request.form["first_name"]
-    last_name = request.form["last_name"]
-    img_url = request.form["img_url"]
-    img_url = img_url if img_url else None
+    user = User.query.get_or_404(user_id)
+    user.first_name = request.form["first_name"]
+    user.last_name = request.form["last_name"]
+    img_url = request.form['img_url']
+    img_url = img_url if img_url else DEFAULT_IMAGE_URL
+    user.img_url = request.form['img_url']
 
-    user = User.query.get(user_id)
-    user.first_name = first_name
-    user.last_name = last_name
-    user.img_url = img_url
-
+    db.session.add(user)
     db.session.commit()
 
     return redirect("/users")
@@ -95,10 +100,14 @@ def delete_user(user_id):
     return redirect('/users')
 
 
+################################################################################
+# Post routes
+
 @app.get('/users/<int:user_id>/posts/new')
 def display_form_add_post(user_id):
     """Show form to add a new post"""
     user = User.query.get_or_404(user_id)
+
     return render_template("/posts/add-post.html", user=user)
 
 
@@ -122,6 +131,7 @@ def add_post(user_id):
 def display_post_page(post_id):
     """Show desired post page"""
     post = Post.query.get_or_404(post_id)
+
     return render_template('posts/detail.html', post=post)
 
 
@@ -129,6 +139,7 @@ def display_post_page(post_id):
 def display_form_edit_post(post_id):
     """Show edit form for the corresponding post"""
     post = Post.query.get_or_404(post_id)
+
     return render_template('posts/edit.html', post=post)
 
 
