@@ -97,6 +97,7 @@ def edit_user(user_id):
 
     db.session.add(user)
     db.session.commit()
+    flash(f'User {user.full_name} edited.')
 
     return redirect("/users")
 
@@ -104,8 +105,10 @@ def edit_user(user_id):
 @app.post('/users/<int:user_id>/delete')
 def delete_user(user_id):
     """Delete a user."""
+    user = User.query.get_or_404(user_id)
     User.query.filter(User.id == user_id).delete()
     db.session.commit()
+    flash(f'User {user.full_name} deleted.')
 
     return redirect('/users')
 

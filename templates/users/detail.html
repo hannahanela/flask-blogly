@@ -7,6 +7,10 @@
 <img src="{{ user.img_url }}">
 <h1> {{ user.full_name }}</h1>
 
+{% for msg in get_flashed_messages() %}
+  <p>{{ msg }}</p>
+{% endfor %}
+
 <form>
     <button formaction="/users/{{ user.id }}/edit" formmethod="GET">Edit</button>
     <button formaction="/users/{{ user.id }}/delete" formmethod="POST">Delete</button>
