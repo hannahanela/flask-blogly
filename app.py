@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask_debugtoolbar import DebugToolbarExtension
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, flash
 from models import db, connect_db, User, Post, Tag, PostTag, DEFAULT_IMAGE_URL
 
 app = Flask(__name__)
@@ -45,9 +45,16 @@ def display_form_add_user():
 def create_user():
     """Handle form submission to create a new user."""
     first_name = request.form["first_name"]
+    first_name = first_name if first_name else None
     last_name = request.form["last_name"]
+    last_name = last_name if last_name else None
     img_url = request.form["img_url"]
     img_url = img_url if img_url else None
+
+    if first_name == None or last_name == None:
+        flash(f'Must provide a valid first and last name.')
+
+        return redirect('/users/new')
 
     new_user = User(
         first_name=first_name,
@@ -57,6 +64,7 @@ def create_user():
 
     db.session.add(new_user)
     db.session.commit()
+    flash(f'User {new_user.full_name} added.')
 
     return redirect('/users')
 

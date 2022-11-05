@@ -8,6 +8,10 @@
 
 <h1>Create a user</h1>
 
+{% for msg in get_flashed_messages() %}
+  <p>{{ msg }}</p>
+{% endfor %}
+
 <form action="/users/new" method="POST">
   <p>First Name: <input name="first_name" placeholder="Enter a first name"></p>
   <p>Last Name: <input name="last_name" placeholder="Enter a last name"></p>
