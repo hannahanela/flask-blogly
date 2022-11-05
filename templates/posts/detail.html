@@ -6,6 +6,10 @@
 
 <h1> {{ post.title }}</h1>
 
+{% for msg in get_flashed_messages() %}
+  <p>{{ msg }}</p>
+{% endfor %}
+
 <p>{{ post.content }}</p>
 
 <p><i>By {{ post.user.full_name }} on {{ post.friendly_date }}</i></p>

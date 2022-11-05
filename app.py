@@ -128,7 +128,14 @@ def display_form_add_post(user_id):
 def add_post(user_id):
     """Gather form info to create a new post, add to database, and return to user detail page."""
     title = request.form["title"]
+    title = title if title else None
     content = request.form["content"]
+    content = content if content else None
+
+    if title == None or content == None:
+        flash('Must provide valid title and content.')
+
+        return redirect(f'/users/{user_id}/posts/new')
 
     new_post = Post(title=title,
                     content=content,
@@ -136,6 +143,7 @@ def add_post(user_id):
 
     db.session.add(new_post)
     db.session.commit()
+    flash(f'{new_post.title} successfully posted!')
 
     return redirect(f'/users/{user_id}')
 
@@ -168,6 +176,7 @@ def edit_post(post_id):
     post.content = content
 
     db.session.commit()
+    flash(f'{post.title} successfully edited.')
 
     return redirect(f"/posts/{post_id}")
 
@@ -181,6 +190,7 @@ def delete_post(post_id):
 
     db.session.delete(post)
     db.session.commit()
+    flash(f'{post.title} deleted.')
 
     return redirect(f'/users/{user_id}')
 

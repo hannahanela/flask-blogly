@@ -8,6 +8,10 @@
 
 <h1>Add Post for {{ user.full_name }}</h1>
 
+{% for msg in get_flashed_messages() %}
+  <p>{{ msg }}</p>
+{% endfor %}
+
 <form>
   <p>Title <input name="title"></p>
   <p>Content <input name="content"></p>
