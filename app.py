@@ -204,3 +204,13 @@ def tags_display():
     tags = Tag.query.order_by('name').all()
 
     return render_template('tags/list.html', tags=tags)
+
+
+@app.get('/tags/<int:tag_id>')
+def tag_detail(tag_id):
+    """Show details of a tag."""
+    # breakpoint()
+    tag = Tag.query.get_or_404(tag_id)
+    posts = tag.post_tag
+
+    return render_template('tags/detail.html', tag=tag, posts=posts)
