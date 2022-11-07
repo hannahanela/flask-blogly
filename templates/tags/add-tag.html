@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Tag{% endblock %}
+
+{% block content %}
+<h1>Create a tag</h1>
+
+{% for msg in get_flashed_messages() %}
+  <p>{{ msg }}</p>
+{% endfor %}
+
+<form action="/tags/new" method="POST">
+    <label for="name">Name</label>
+    <input type="text" name="name" placeholder="Enter a name for the tag">
+    <a href="/tags">Cancel</a><button action="submit">Add</button>
+</form>
+
+{% endblock %}

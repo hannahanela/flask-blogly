@@ -214,3 +214,30 @@ def tag_detail(tag_id):
     posts = tag.post_tag
 
     return render_template('tags/detail.html', tag=tag, posts=posts)
+
+
+@app.get('/tags/new')
+def tag_form_display():
+    """Show form to create a new tag."""
+    return render_template('tags/add-tag.html')
+
+
+@app.post('/tags/new')
+def tag_create():
+    """Handle form submission and create a new tag."""
+    # breakpoint()
+    name = request.form['name']
+    name = name if name else None
+
+    if name == None:
+        flash('Must provide a tag name.')
+
+        return redirect('/tags/new')
+
+    new_tag = Tag(name=name)
+
+    db.session.add(new_tag)
+    db.session.commit()
+    flash(f'{new_tag.name} created')
+
+    return redirect('/tags')
