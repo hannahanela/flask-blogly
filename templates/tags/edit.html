@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Tag{% endblock %}
+
+{% block content %}
+<h1>Edit a tag</h1>
+
+{% for msg in get_flashed_messages() %}
+  <p>{{ msg }}</p>
+{% endfor %}
+
+<form action="/tags/{{ tag.id }}/edit" method="POST">
+    <label for="name">Name</label>
+    <input type="text" name="name" value="{{ tag.name }}">
+    <a href="/tags">Cancel</a><button action="submit">Edit</button>
+</form>
+
+{% endblock %}

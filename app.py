@@ -199,7 +199,7 @@ def delete_post(post_id):
 # Tag routes
 
 @app.get('/tags')
-def tags_display():
+def tags_list():
     """List all tags."""
     tags = Tag.query.order_by('name').all()
 
@@ -207,7 +207,7 @@ def tags_display():
 
 
 @app.get('/tags/<int:tag_id>')
-def tag_detail(tag_id):
+def tags_detail(tag_id):
     """Show details of a tag."""
     # breakpoint()
     tag = Tag.query.get_or_404(tag_id)
@@ -217,13 +217,13 @@ def tag_detail(tag_id):
 
 
 @app.get('/tags/new')
-def tag_form_display():
+def tags_new_form():
     """Show form to create a new tag."""
     return render_template('tags/add-tag.html')
 
 
 @app.post('/tags/new')
-def tag_create():
+def tags_new():
     """Handle form submission and create a new tag."""
     # breakpoint()
     name = request.form['name']
@@ -241,3 +241,11 @@ def tag_create():
     flash(f'{new_tag.name} created')
 
     return redirect('/tags')
+
+
+@app.get('/tags/<int:tag_id>/edit')
+def tags_edit(tag_id):
+    """Show form to edit a tag."""
+    tag = Tag.query.get_or_404(tag_id)
+
+    return render_template('/tags/edit.html', tag=tag)
