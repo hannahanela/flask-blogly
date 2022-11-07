@@ -244,8 +244,21 @@ def tags_new():
 
 
 @app.get('/tags/<int:tag_id>/edit')
-def tags_edit(tag_id):
+def tags_edit_form(tag_id):
     """Show form to edit a tag."""
     tag = Tag.query.get_or_404(tag_id)
 
     return render_template('/tags/edit.html', tag=tag)
+
+
+@app.post('/tags/<int:tag_id>/edit')
+def tags_edit(tag_id):
+    """Handle form submission to edit a tag."""
+    tag = Tag.query.get_or_404(tag_id)
+
+    tag.name = request.form['name']
+
+    db.session.commit()
+    flash(f'{tag.name} edited')
+
+    return redirect('/tags')
