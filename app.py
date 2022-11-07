@@ -197,3 +197,10 @@ def delete_post(post_id):
 
 ################################################################################
 # Tag routes
+
+@app.get('/tags')
+def tags_display():
+    """List all tags."""
+    tags = Tag.query.order_by('name').all()
+
+    return render_template('tags/list.html', tags=tags)
