@@ -262,3 +262,21 @@ def tags_edit(tag_id):
     flash(f'{tag.name} edited')
 
     return redirect('/tags')
+
+
+@app.post('/tags/<int:tag_id>/delete')
+def tags_delete(tag_id):
+    """Delete a tag."""
+    # currently handles only 1 instance of both PostTag and Post
+    tag = Tag.query.get_or_404(tag_id)
+    post_tag = tag.post_tag[0]
+    post_id = tag.post_tag[0].post_id
+    post = Post.query.get_or_404(post_id)
+    post.post_tag.remove(post_tag)
+
+    db.session.delete(post_tag)
+    db.session.delete(tag)
+    db.session.commit()
+    flash(f'{tag.name} deleted')
+
+    return redirect('/tags')
