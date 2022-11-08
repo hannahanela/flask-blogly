@@ -17,8 +17,8 @@ db.create_all()
 
 
 @app.get('/')
-def display_home():
-    """Show list of users as homepage"""
+def homepage_index():
+    """Show list of 5 most recent posts as homepage."""
     posts = Post.query.order_by(Post.created_at.desc()).limit(5)
 
     return render_template("homepage.html", posts=posts)
@@ -28,21 +28,21 @@ def display_home():
 # User routes
 
 @app.get('/users')
-def display_users():
-    """Show list of users"""
+def users_list():
+    """Show list of users."""
     users = User.query.order_by('last_name', 'first_name').all()
 
     return render_template('users/list.html', users=users)
 
 
 @app.get('/users/new')
-def display_form_add_user():
-    """Show form to add a user"""
+def users_new_form():
+    """Show form to create a new user."""
     return render_template("users/add-user.html")
 
 
 @app.post('/users/new')
-def create_user():
+def users_new():
     """Handle form submission to create a new user."""
     first_name = request.form["first_name"]
     first_name = first_name if first_name else None
@@ -60,7 +60,7 @@ def create_user():
         first_name=first_name,
         last_name=last_name,
         img_url=img_url,
-        )
+    )
 
     db.session.add(new_user)
     db.session.commit()
@@ -70,24 +70,24 @@ def create_user():
 
 
 @app.get('/users/<int:user_id>')
-def display_user_page(user_id):
-    """Show user page for desired user"""
+def users_detail(user_id):
+    """Show details of a user."""
     user = User.query.get_or_404(user_id)
 
     return render_template('users/detail.html', user=user)
 
 
 @app.get('/users/<int:user_id>/edit')
-def display_form_edit_user(user_id):
-    """Show edit form for the corresponding user"""
+def users_edit_form(user_id):
+    """Show form to edit a user."""
     user = User.query.get_or_404(user_id)
 
     return render_template('users/edit.html', user=user)
 
 
 @app.post('/users/<int:user_id>/edit')
-def edit_user(user_id):
-    """Get info from edit user info form, update database, and redirect to users"""
+def users_edit(user_id):
+    """Handle forms submission to edit a user."""
     user = User.query.get_or_404(user_id)
     user.first_name = request.form["first_name"]
     user.last_name = request.form["last_name"]
@@ -103,7 +103,7 @@ def edit_user(user_id):
 
 
 @app.post('/users/<int:user_id>/delete')
-def delete_user(user_id):
+def users_delete(user_id):
     """Delete a user."""
     user = User.query.get_or_404(user_id)
     User.query.filter(User.id == user_id).delete()
@@ -158,7 +158,7 @@ def posts_new(user_id):
         title=title,
         content=content,
         user_id=user_id
-        )
+    )
 
     db.session.add(new_post)
     
@@ -185,15 +185,11 @@ def posts_edit_form(post_id):
 
     selected_tags = Tag.query.filter(Tag.id.in_(tag_ids)).all()
 
-
-    # get all tags
-    # 'select' tags that already are associated w/ post
-
     return render_template(
         'posts/edit.html',
         post=post, tags=tags,
         selected_tags=selected_tags,
-        )
+    )
 
 
 @app.post('/posts/<int:post_id>/edit')
