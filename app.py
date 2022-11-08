@@ -19,8 +19,8 @@ db.create_all()
 @app.get('/')
 def homepage_index():
     """Show list of 5 most recent posts as homepage."""
-    posts = Post.query.order_by(Post.created_at.desc()).limit(5)
-
+    posts = Post.query.order_by(Post.created_at.desc()).limit(5).all()
+    
     return render_template("homepage.html", posts=posts)
 
 
