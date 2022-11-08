@@ -11,6 +11,18 @@
   <p>Title <input id="title" name="title" value="{{ post.title }}"></p>
   <p>Post Content <input name="content" value="{{ post.content }}"></p>
 
+  {% for tag in tags %}
+    <input
+      type="checkbox"
+      name="tags"
+      aria-label="{{ tag.name }}"
+      value="{{ tag.name }}"
+      {% if tag in selected_tags %}
+        checked
+      {% endif %}
+    >{{ tag.name }}
+  {% endfor %}
+
   <button formaction="/posts/{{ post.id }}" formmethod="GET">Cancel</button>
   <button formaction="/posts/{{ post.id }}/edit" formmethod="POST">Edit</button>
 </form>

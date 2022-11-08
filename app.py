@@ -122,8 +122,10 @@ def posts_detail(post_id):
     post = Post.query.get_or_404(post_id)
     post_tags = post.post_tag
     tag_ids = []
+
     for post_tag in post_tags:
         tag_ids.append(post_tag.tag_id)
+
     tags = Tag.query.filter(Tag.id.in_(tag_ids)).all()
 
     return render_template('posts/detail.html', post=post, tags=tags)
@@ -174,8 +176,24 @@ def posts_new(user_id):
 def posts_edit_form(post_id):
     """Show form to edit a post."""
     post = Post.query.get_or_404(post_id)
+    tags = Tag.query.all()
+    post_tags = post.post_tag
+    tag_ids = []
 
-    return render_template('posts/edit.html', post=post)
+    for post_tag in post_tags:
+        tag_ids.append(post_tag.tag_id)
+
+    selected_tags = Tag.query.filter(Tag.id.in_(tag_ids)).all()
+
+
+    # get all tags
+    # 'select' tags that already are associated w/ post
+
+    return render_template(
+        'posts/edit.html',
+        post=post, tags=tags,
+        selected_tags=selected_tags,
+        )
 
 
 @app.post('/posts/<int:post_id>/edit')
