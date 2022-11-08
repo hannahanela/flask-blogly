@@ -16,6 +16,15 @@
   <p>Title <input name="title"></p>
   <p>Content <input name="content"></p>
 
+  {% for tag in tags %}
+    <input
+      type="checkbox"
+      name="tags"
+      aria-label="{{ tag.name }}"
+      value="{{ tag.name }}"
+    >{{ tag.name }}
+  {% endfor %}
+
   <button formaction="/users/{{ user.id }}" formmethod="GET">Cancel</button>
   <button formaction="/users/{{ user.id }}/posts/new" formmethod="POST">Save</button>
 </form>

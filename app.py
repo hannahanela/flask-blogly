@@ -120,16 +120,22 @@ def delete_user(user_id):
 def posts_detail(post_id):
     """Show details of a post."""
     post = Post.query.get_or_404(post_id)
+    post_tags = post.post_tag
+    tag_ids = []
+    for post_tag in post_tags:
+        tag_ids.append(post_tag.tag_id)
+    tags = Tag.query.filter(Tag.id.in_(tag_ids)).all()
 
-    return render_template('posts/detail.html', post=post)
+    return render_template('posts/detail.html', post=post, tags=tags)
 
 
 @app.get('/users/<int:user_id>/posts/new')
 def posts_new_form(user_id):
     """Show form to create a new post."""
     user = User.query.get_or_404(user_id)
+    tags = Tag.query.all()
 
-    return render_template("/posts/add-post.html", user=user)
+    return render_template("/posts/add-post.html", user=user, tags=tags)
 
 
 @app.post('/users/<int:user_id>/posts/new')
@@ -139,17 +145,25 @@ def posts_new(user_id):
     title = title if title else None
     content = request.form["content"]
     content = content if content else None
+    tag_names = request.form.getlist('tags')
 
     if title == None or content == None:
         flash('Must provide valid title and content.')
 
         return redirect(f'/users/{user_id}/posts/new')
 
-    new_post = Post(title=title,
-                    content=content,
-                    user_id=user_id)
+    new_post = Post(
+        title=title,
+        content=content,
+        user_id=user_id
+        )
 
     db.session.add(new_post)
+    
+    for name in tag_names:
+        tag = Tag.query.filter_by(name=name).first()
+        new_post.post_tag.append(PostTag(tag_id=tag.id))
+
     db.session.commit()
     flash(f'{new_post.title} successfully posted!')
 
