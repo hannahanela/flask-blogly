@@ -255,7 +255,6 @@ def tags_new_form():
 @app.post('/tags/new')
 def tags_new():
     """Handle form submission and create a new tag."""
-    # breakpoint()
     name = request.form['name']
     name = name if name else None
     post_titles = request.form.getlist('posts')
@@ -284,8 +283,21 @@ def tags_new():
 def tags_edit_form(tag_id):
     """Show form to edit a tag."""
     tag = Tag.query.get_or_404(tag_id)
+    posts = Post.query.all()
+    post_tags = tag.post_tag
+    post_ids = []
 
-    return render_template('/tags/edit.html', tag=tag)
+    for post_tag in post_tags:
+        post_ids.append(post_tag.post_id)
+
+    selected_posts = Post.query.filter(Post.id.in_(post_ids)).all()
+
+    return render_template(
+        '/tags/edit.html',
+        tag=tag,
+        posts=posts,
+        selected_posts=selected_posts,
+    )
 
 
 @app.post('/tags/<int:tag_id>/edit')
