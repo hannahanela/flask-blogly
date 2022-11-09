@@ -12,6 +12,14 @@
 <form action="/tags/new" method="POST">
     <label for="name">Name</label>
     <input type="text" name="name" placeholder="Enter a name for the tag">
+    {% for post in posts %}
+      <input
+        type="checkbox"
+        name="posts"
+        aria-label="{{ post.title }}"
+        value="{{ post.title }}"
+      >{{ post.title }}
+    {% endfor %}
     <a href="/tags">Cancel</a><button action="submit">Add</button>
 </form>
 

@@ -247,7 +247,9 @@ def tags_detail(tag_id):
 @app.get('/tags/new')
 def tags_new_form():
     """Show form to create a new tag."""
-    return render_template('tags/add-tag.html')
+    posts = Post.query.all()
+
+    return render_template('tags/add-tag.html', posts=posts)
 
 
 @app.post('/tags/new')
@@ -256,6 +258,7 @@ def tags_new():
     # breakpoint()
     name = request.form['name']
     name = name if name else None
+    post_titles = request.form.getlist('posts')
 
     if name == None:
         flash('Must provide a tag name.')
@@ -265,6 +268,12 @@ def tags_new():
     new_tag = Tag(name=name)
 
     db.session.add(new_tag)
+
+    for title in post_titles:
+        # Post titles are currently not unique, so not guaranteed accurate fetch
+        post = Post.query.filter_by(title=title).first()
+        new_tag.post_tag.append(PostTag(post_id=post.id))
+
     db.session.commit()
     flash(f'{new_tag.name} created')
 
