@@ -9,14 +9,17 @@
 <h1>Create a user</h1>
 
 {% for msg in get_flashed_messages() %}
-  <p>{{ msg }}</p>
+  <div class="alert alert-warning">
+    {{ msg }}
+  </div>
 {% endfor %}
 
 <form action="/users/new" method="POST">
   <p>First Name: <input name="first_name" placeholder="Enter a first name"></p>
   <p>Last Name: <input name="last_name" placeholder="Enter a last name"></p>
   <p>Image URL: <input name="img_url" placeholder="Provide an image of this user"></p>
-  <button action="submit">Add</button>
+  <a href="/users" class="btn btn-outline-primary btn-sm">Cancel</a>
+  <button class="btn btn-success btn-sm" action="submit">Add</button>
 </form>
 
 

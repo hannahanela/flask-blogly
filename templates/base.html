@@ -8,10 +8,12 @@
   <title>{% block title %}{% endblock %}</title>
   <link rel="stylesheet"
   href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
+  <script src="https://unpkg.com/popper"></script>
+  <script src="https://unpkg.com/bootstrap"></script>
 </head>
 
 <body>
-  <div class="container">
+  <div class="container p-5 my-5 border">
     {% block content %}
     {% endblock %}
   </div>

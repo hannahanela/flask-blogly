@@ -5,14 +5,26 @@
 {% block content %}
 <h1>{{ tag.name }}</h1>
 <ul>
-    {% for post in posts %}
-        <li><a href="/posts/{{ post.post_id }}">{{ post.title }}</a></li>
-    {% endfor %}
+  {% for post in posts %}
+      <li><a href="/posts/{{ post.post_id }}">{{ post.title }}</a></li>
+  {% endfor %}
 </ul>
 
 <form>
-    <button formaction="/tags/{{ tag.id }}/edit" formmethod="GET">Edit</button>
-    <button formaction="/tags/{{ tag.id }}/delete" formmethod="POST">Delete</button>
+  <button
+    class="btn btn-primary btn-sm"
+    formaction="/tags/{{ tag.id }}/edit"
+    formmethod="GET"
+  >
+    Edit
+  </button>
+  <button
+    class="btn btn-danger btn-sm"
+    formaction="/tags/{{ tag.id }}/delete"
+    formmethod="POST"
+  >
+    Delete
+  </button>
 </form>
 
 {% endblock %}

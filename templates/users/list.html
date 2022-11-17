@@ -7,7 +7,10 @@
 <h1>Users</h1>
 
 {% for msg in get_flashed_messages() %}
-  <p>{{ msg }}</p>
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    {{ msg }}
+  </div>
 {% endfor %}
 
 <ul>
@@ -16,7 +19,7 @@
   {% endfor %}
 </ul>
 
-<a href="/users/new">Add user</a>
+<a href="/users/new" class="btn btn-primary btn-sm">Add user</a>
 
 
 

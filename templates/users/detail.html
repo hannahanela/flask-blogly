@@ -4,16 +4,31 @@
 
 {% block content %}
 
-<img src="{{ user.img_url }}">
+<img class="img-fluid rounded" src="{{ user.img_url }}">
 <h1> {{ user.full_name }}</h1>
 
 {% for msg in get_flashed_messages() %}
-  <p>{{ msg }}</p>
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    {{ msg }}
+  </div>
 {% endfor %}
 
 <form>
-    <button formaction="/users/{{ user.id }}/edit" formmethod="GET">Edit</button>
-    <button formaction="/users/{{ user.id }}/delete" formmethod="POST">Delete</button>
+  <button
+    class="btn btn-primary btn-sm"
+    formaction="/users/{{ user.id }}/edit"
+    formmethod="GET"
+  >
+    Edit
+  </button>
+  <button 
+    class="btn btn-danger btn-sm"
+    formaction="/users/{{ user.id }}/delete"
+    formmethod="POST"
+  >
+    Delete
+  </button>
 </form>
 
 <h2>Posts</h2>
@@ -23,5 +38,5 @@
     {% endfor %}
 </ul>
 
-<a href="/users/{{ user.id }}/posts/new">Add post</a>
+<a href="/users/{{ user.id }}/posts/new" class="btn btn-primary btn-sm">Add post</a>
 {% endblock %}

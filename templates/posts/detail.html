@@ -7,7 +7,10 @@
 <h1> {{ post.title }}</h1>
 
 {% for msg in get_flashed_messages() %}
-  <p>{{ msg }}</p>
+  <div class="alert alert-success alert-dismissible">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    {{ msg }}
+  </div>
 {% endfor %}
 
 <p>{{ post.content }}</p>
@@ -19,9 +22,27 @@
   {% endfor %}
 </p>
 <form>
-    <button formaction="/posts/{{ post.id }}" formmethod="GET">Cancel</button>
-    <button formaction="/posts/{{ post.id }}/edit" formmethod="GET">Edit</button>
-    <button formaction="/posts/{{ post.id }}/delete" formmethod="POST">Delete</button>
+  <button
+    class="btn btn-outline-primary btn-sm"
+    formaction="/posts/{{ post.id }}"
+    formmethod="GET"
+  >
+    Cancel
+  </button>
+  <button
+    class="btn btn-primary btn-sm"
+    formaction="/posts/{{ post.id }}/edit"
+    formmethod="GET"
+  >
+    Edit
+  </button>
+  <button
+    class="btn btn-danger btn-sm"
+    formaction="/posts/{{ post.id }}/delete"
+    formmethod="POST"
+  >
+    Delete
+  </button>
 </form>
 
 {% endblock %}

@@ -23,8 +23,20 @@
     >{{ tag.name }}
   {% endfor %}
 
-  <button formaction="/posts/{{ post.id }}" formmethod="GET">Cancel</button>
-  <button formaction="/posts/{{ post.id }}/edit" formmethod="POST">Edit</button>
+  <button
+    class="btn btn-outline-primary btn-sm"
+    formaction="/posts/{{ post.id }}"
+    formmethod="GET"
+  >
+    Cancel
+  </button>
+  <button
+    class="btn btn-success btn-sm"
+    formaction="/posts/{{ post.id }}/edit"
+    formmethod="POST"
+  >
+    Edit
+  </button>
 </form>
 
 

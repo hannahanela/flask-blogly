@@ -9,7 +9,9 @@
 <h1>Add Post for {{ user.full_name }}</h1>
 
 {% for msg in get_flashed_messages() %}
-  <p>{{ msg }}</p>
+  <div class="alert alert-warning">
+    {{ msg }}
+  </div>
 {% endfor %}
 
 <form>
@@ -25,8 +27,20 @@
     >{{ tag.name }}
   {% endfor %}
 
-  <button formaction="/users/{{ user.id }}" formmethod="GET">Cancel</button>
-  <button formaction="/users/{{ user.id }}/posts/new" formmethod="POST">Save</button>
+  <button
+    class="btn btn-outline-primary btn-sm"
+    formaction="/users/{{ user.id }}"
+    formmethod="GET"
+  >
+    Cancel
+  </button>
+  <button
+    class="btn btn-success btn-sm"
+    formaction="/users/{{ user.id }}/posts/new"
+    formmethod="POST"
+  >
+    Save
+  </button>
 </form>
 
 
