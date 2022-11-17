@@ -303,9 +303,37 @@ def tags_edit_form(tag_id):
 @app.post('/tags/<int:tag_id>/edit')
 def tags_edit(tag_id):
     """Handle form submission to edit a tag."""
+    # breakpoint()
     tag = Tag.query.get_or_404(tag_id)
-
+    post_tags = tag.post_tag
     tag.name = request.form['name']
+    submitted_post_titles = request.form.getlist('posts')
+
+    related_post_titles_and_ids = db.session.query(Post.id, Post.title).filter(PostTag.post_id.in_(post_tags)).all()
+    # for post_tag in post_tags:
+    #     # post = Post.query.get(post_tag.post_id)
+    #     # can't update post with a new query until a commit()
+    #     # get all ids and query for posts after?
+
+    #     if post.title not in submitted_post_titles:
+    #         tag.post_tag.remove(post_tag)
+    #         continue
+
+    #     related_post_titles_and_ids.append(post.title)
+
+
+    # for title in related_post_titles:
+    #     if title not in submitted_post_titles:
+    #         # remove relationship
+    #         tag.post_tag.remove(PostTag())
+    #         # remove from related_post_titles
+
+    for title in submitted_post_titles:
+        if title in related_post_titles_and_ids:
+            continue
+        # make a relationship
+        post = Post.query.filter_by(title=title).first()
+        tag.post_tag.append(PostTag(post_id=post.id))
 
     db.session.commit()
     flash(f'{tag.name} edited')
