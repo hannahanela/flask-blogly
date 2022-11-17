@@ -18,13 +18,13 @@
 <p><i>By {{ post.user.full_name }} on {{ post.friendly_date }}</i></p>
 <p>Tags:
   {% for tag in tags %}
-    <p>{{ tag.name }}</p>
+  <span class="badge bg-primary">{{ tag.name }}</span>
   {% endfor %}
 </p>
 <form>
   <button
     class="btn btn-outline-primary btn-sm"
-    formaction="/posts/{{ post.id }}"
+    formaction="/users/{{ post.user.id }}"
     formmethod="GET"
   >
     Cancel
