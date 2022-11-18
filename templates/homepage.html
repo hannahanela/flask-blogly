@@ -8,12 +8,14 @@
 
 <h1 class="display-1">Blogly <small>Recent Posts</small></h1>
 
-{% for post in posts %}
-    <div class="text-bg-light">
+<div class="row">
+  {% for post in posts %}
+    <div class="col-md-8 m-2 text-bg-light">
         <h2>{{ post.title }}</h2>
         <p>{{ post.content }}</p>
         <p class="text-secondary">By {{ post.user.full_name }} on {{ post.friendly_date }}</p>
     </div>
-    {% endfor %}
+  {% endfor %}
+</div>
 
 {% endblock %}
